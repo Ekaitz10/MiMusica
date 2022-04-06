@@ -12,11 +12,12 @@ public interface IGestorDB {
 	//usuarios
 	public void crearUsuario(Usuario usuario);
 	public List<Usuario> todosLosUsuarios();
+	boolean buscarUsuario(String nombre);
 	public void eliminarUsuario(Usuario usuario);
 	//playlists
 	public void crearPlaylist(Playlist playlist);
 	public List<Playlist> todasLasPlaylists();
-	public void añadirCancion(Cancion cancion);
+	public void anadirCancion(Cancion cancion);
 	public void eliminarPlaylist(Playlist playlist);
 	//artistas
 	public void crearArtista(Artista artista);
@@ -25,7 +26,7 @@ public interface IGestorDB {
 	//canciones
 	public void crearCancion(Cancion cancion);
 	public List<Cancion> todasLasCanciones();
-	public List<Cancion> buscarCancion();
+	public List<Cancion> buscarCancion(String nombre);
 	public void eliminarCancion(Cancion cancion);
 	
 }

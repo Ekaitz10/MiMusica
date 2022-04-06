@@ -8,6 +8,6 @@ import com.example.demo.beans.Playlist;
 public interface IPlaylistService {
 	public void crearPlaylist(Playlist playlist);
 	public List<Playlist> todasLasPlaylists();
-	public void añadirCancion(Cancion cancion);
+	public void anadirCancion(Cancion cancion);
 	public void eliminarPlaylist(Playlist playlist);
 }

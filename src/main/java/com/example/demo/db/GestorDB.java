@@ -30,6 +30,7 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		}
 	}
 	
+	
 	//consultas
 	@Override
 	public List<Jugador> todosLosJugadores() {

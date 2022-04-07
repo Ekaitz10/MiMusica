@@ -3,16 +3,22 @@ package com.example.demo.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.beans.Usuario;
 import com.example.demo.db.GestorDB;
 import com.example.demo.interfaces.IUsuarioService;
 
+@Service
 public class UsuarioService implements IUsuarioService {
 
 	
-	GestorDB gestor = new GestorDB("${spring.datasource.url}","${spring.datasource.driver-class-name}","${spring.datasource.username}","${spring.datasource.password}");
+	GestorDB gestor;
+	
+	@Autowired
+	public UsuarioService(GestorDB gestor) {
+		this.gestor = gestor;
+	}
 	
 	@Override
 	public void crearUsuario(Usuario usuario) {
@@ -21,13 +27,12 @@ public class UsuarioService implements IUsuarioService {
 			gestor.crearUsuario(usuario);
 		}
 	}
-
+	
 	@Override
 	public List<Usuario> todosLosUsuarios() {
-		// TODO Auto-generated method stub
-		return null;
+		return gestor.todosLosUsuarios();
 	}
-
+	
 	@Override
 	public void eliminarUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub

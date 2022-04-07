@@ -23,5 +23,9 @@ public class Usuario {
 	public void setEdad(int edad) {
 		this.edad = edad;
 	}
+	@Override
+	public String toString() {
+		return "Usuario [nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad + "]";
+	}
 	
 }

@@ -2,9 +2,12 @@ package com.example.demo.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.example.demo.beans.Cancion;
 import com.example.demo.interfaces.ICancionService;
 
+@Service
 public class CancionService implements ICancionService{
 
 	@Override

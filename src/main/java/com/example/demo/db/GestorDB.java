@@ -23,7 +23,7 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 	private Connection conn;
 	
 	//conexion
-	public GestorDB(String URL, String driver, String usuario, String contrasena) {
+	public GestorDB(@Value("${spring.datasource.url}")String URL,@Value( "${spring.datasource.driver-class-name}") String driver,@Value("${spring.datasource.username}") String usuario,@Value("${spring.datasource.password}") String contrasena) {
 		try {
 			Class.forName(driver);
 			this.conn = DriverManager.getConnection(URL,usuario, contrasena);
@@ -53,28 +53,23 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 	
 	@Override
 	public boolean buscarUsuario(String nombre) {
-		List<Usuario> usuarios = new ArrayList<Usuario>();
+		Usuario j = null;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM usuarios WHERE nombre = (?)");
 			ps.setString(1, nombre);
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				Usuario j = new Usuario();
+				j = new Usuario();
 				j.setNombre(rs.getString("nombre"));
 				j.setApellido(rs.getString("apellido"));
 				j.setEdad(rs.getInt("edad"));
-				usuarios.add(j);
 	        }
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
-		}catch (ClassNotFoundException e1) {
-			
-			e1.printStackTrace();
 		}
-        if(usuarios.get(0)!= null) {
+        if(j != null) {
         	return true;
         }else {
         	return false;
@@ -83,8 +78,28 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 	
 	@Override
 	public List<Usuario> todosLosUsuarios() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM usuarios");
+			
+			while(rs.next()) {
+				Usuario u = new Usuario();
+				u.setNombre(rs.getString("nombre"));
+				u.setApellido(rs.getString("apellido"));
+				u.setEdad(Integer.parseInt(rs.getString("edad")));
+				usuarios.add(u);
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}catch (ClassNotFoundException e1) {
+			
+			e1.printStackTrace();
+		}
+        
+		return usuarios;
 	}
 
 	@Override
@@ -278,8 +293,8 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 	}
 	
 	//actualizar
-	//añadir jugador
-	public void añadirJugador(Jugador jugador1) {
+	//aï¿½adir jugador
+	public void aï¿½adirJugador(Jugador jugador1) {
 		try {
 			Jugador jugadoranadir = new Jugador();
 			jugadoranadir = jugador1;
@@ -295,7 +310,7 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		}
 	}
 	
-	//añadir equipo
+	//aï¿½adir equipo
 	public void anadirEquipo(Equipo equipo1) {
 		try {
 			Equipo equipoanadir = new Equipo();

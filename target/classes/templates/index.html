@@ -7,32 +7,45 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	
 </head>
-<body class="bg-dark text-light mx-auto p-5">
+<body class="bg-dark text-light container-fluid p-0 m-0">
+	<nav class="navbar navbar-light bg-light">
+	  <div class="container-fluid">
+	    <a class="navbar-brand">MiMusica</a>
+	    <form class="d-flex" method="GET" action="/perfil">
+				<select class="form-control me-2">
+					<option  th:each="usuario : ${usuarios}" th:text="${usuario.nombre}"></option>
+				</select>
+				<input type="submit" class="btn btn-success" value="Iniciar">
+			</form>
+	  </div>
+	</nav>
+			
+	<div class="row p-5">
+		<div class="col-4"></div>
+		<div class="col-4">
+			<form method="POST" action="/">
+			<div class="mb-3">
+			    <label class="form-label">Nombre</label>
+			    <input type="text" class="form-control" name="nombre">
+			 </div>
+			<div class="mb-3">
+			    <label class="form-label">Apellido</label>
+				<input type="text" class="form-control" name="apellido">
+			 </div>
+			 <div class="mb-3">
+			    <label class="form-label">Edad</label>
+				<input type="text" class="form-control" name="edad">
+			 </div>
+			 <input type="submit" class="btn btn-success col-12" value="Crear">
+		</form>
+		</div>
+	</div>
 <header class="text-success text-center">
-	<h1>MiMusica</h1>
+	
 </header>
 <section>
-	<form>
-	<select class="form-control mb-3">
-		<option  th:each="usuario : ${usuarios}" th:text="${usuario.nombre}"></option>
-	</select>
-	<input type="submit" class="btn btn-success">
-	</form>
-	<form method="POST" action="/">
-		<div class="mb-3">
-		    <label class="form-label">Nombre</label>
-		    <input type="text" class="form-control" name="nombre">
-		 </div>
-		<div class="mb-3">
-		    <label class="form-label">Apellido</label>
-			<input type="text" class="form-control" name="apellido">
-		 </div>
-		 <div class="mb-3">
-		    <label class="form-label">Edad</label>
-			<input type="text" class="form-control" name="edad">
-		 </div>
-		 <input type="submit" class="btn btn-success">
-	</form>
+	
+	
 </section>
 </body>
 </html>

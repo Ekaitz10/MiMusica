@@ -80,7 +80,6 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 	public List<Usuario> todosLosUsuarios() {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM usuarios");
 			
@@ -94,9 +93,6 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
-		}catch (ClassNotFoundException e1) {
-			
-			e1.printStackTrace();
 		}
         
 		return usuarios;

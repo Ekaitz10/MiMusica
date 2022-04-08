@@ -52,7 +52,7 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 	}
 	
 	@Override
-	public boolean buscarUsuario(String nombre) {
+	public boolean existeUsuario(String nombre) {
 		Usuario j = null;
 		try {
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM usuarios WHERE nombre = (?)");
@@ -98,6 +98,27 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		return usuarios;
 	}
 
+	@Override
+	public Usuario buscarUsuario(String nombre) {
+		Usuario usuario = null;
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM usuarios WHERE nombre = (?)");
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				usuario = new Usuario();
+				usuario.setNombre(rs.getString("nombre"));
+				usuario.setApellido(rs.getString("apellido"));
+				usuario.setEdad(rs.getInt("edad"));
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return usuario;
+	}
+	
 	@Override
 	public void eliminarUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub

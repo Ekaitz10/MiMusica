@@ -12,7 +12,8 @@ public interface IGestorDB {
 	//usuarios
 	public void crearUsuario(Usuario usuario);
 	public List<Usuario> todosLosUsuarios();
-	boolean buscarUsuario(String nombre);
+	boolean existeUsuario(String nombre);
+	public Usuario buscarUsuario(String nombre);
 	public void eliminarUsuario(Usuario usuario);
 	//playlists
 	public void crearPlaylist(Playlist playlist);

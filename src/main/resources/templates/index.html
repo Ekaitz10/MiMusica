@@ -12,7 +12,7 @@
 	  <div class="container-fluid">
 	    <a class="navbar-brand">MiMusica</a>
 	    <form class="d-flex" method="GET" action="/perfil">
-				<select class="form-control me-2">
+				<select class="form-control me-2" name="nombre">
 					<option  th:each="usuario : ${usuarios}" th:text="${usuario.nombre}"></option>
 				</select>
 				<input type="submit" class="btn btn-success" value="Iniciar">

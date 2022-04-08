@@ -14,9 +14,22 @@
 	  </div>
 	</nav>
 	<div class="row p-5">
-		<div class="col-4"></div>
+		<div class="col-8">
+		
+		</div>
 		<div class="col-4">
-			Bienvenido
+			<div class="row">
+				<div class="col-12">
+					<h1 class="text-center" th:text="${usuario.nombre}"></h1>
+				</div>
+			</div>
+			<form method="POST" action="/perfil">
+			<div class="mb-3">
+			    <label class="form-label">Nueva Playlist</label>
+			    <input type="text" class="form-control" name="nombre">
+			 </div>
+			 <input type="submit" class="btn btn-success col-12" value="Crear">
+		</form>
 		</div>
 	</div>
 </html>

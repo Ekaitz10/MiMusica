@@ -23,11 +23,14 @@ public class UsuarioService implements IUsuarioService {
 	@Override
 	public void crearUsuario(Usuario usuario) {
 		//si el usuario no existe, crear el usuario
-		if(gestor.buscarUsuario(usuario.getNombre()) == false) {
+		if(gestor.existeUsuario(usuario.getNombre()) == false) {
 			gestor.crearUsuario(usuario);
 		}
 	}
-	
+	@Override
+	public Usuario buscarUsuario(String nombre) {
+		return gestor.buscarUsuario(nombre);
+	}
 	@Override
 	public List<Usuario> todosLosUsuarios() {
 		return gestor.todosLosUsuarios();

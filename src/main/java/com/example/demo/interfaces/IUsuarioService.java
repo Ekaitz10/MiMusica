@@ -8,4 +8,5 @@ public interface IUsuarioService {
 	public void crearUsuario(Usuario usuario);
 	public List<Usuario> todosLosUsuarios();
 	public void eliminarUsuario(Usuario usuario);
+	public int buscarIdUsuario(String nombre);
 }

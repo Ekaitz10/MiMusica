@@ -1,18 +1,20 @@
 package com.example.demo.controllers;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.beans.Playlist;
 import com.example.demo.beans.Usuario;
 import com.example.demo.services.PlaylistService;
 import com.example.demo.services.UsuarioService;
 
 @Controller
-public class IndexController {
+public class PlaylistController {
 	
 	PlaylistService playlistService;
 	UsuarioService usuarioService;
@@ -21,27 +23,23 @@ public class IndexController {
 	public void setPlaylistService(PlaylistService playlistService) {
 		this.playlistService = playlistService;
 	}
-	
 	@Autowired
 	public void setUsuarioService(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
-	//accede a la vista principal
-	@GetMapping("/")
-	public ModelAndView index() {
+	
+	//crea una playlist y devuelve la vista /perfil
+	@PostMapping("/crearplaylist")
+	public ModelAndView index(HttpSession session,@ModelAttribute Playlist playlist) {
+		
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+		String nombreusuario = usuario.getNombre();
 		ModelAndView m = new ModelAndView();
-		m.addObject("usuarios", usuarioService.todosLosUsuarios());
+		playlist.setId_usuario(usuarioService.buscarIdUsuario(nombreusuario));
+		playlistService.crearPlaylist(playlist);
 		m.addObject("playlists", playlistService.todasLasPlaylists());
-		m.setViewName("index");
+		m.setViewName("redirect:/perfil");
 		return m;
 	}
-	//crea usuario y devuelve la vista principal
-	@PostMapping("/")
-	public ModelAndView crearUsuario(@ModelAttribute Usuario usuario) {
-		usuarioService.crearUsuario(usuario);
-		ModelAndView m = new ModelAndView();
-		m.addObject("usuarios", usuarioService.todosLosUsuarios());
-		m.setViewName("index");
-		return m;
-	}
+
 }

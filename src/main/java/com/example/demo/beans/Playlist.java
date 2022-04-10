@@ -1,7 +1,6 @@
 package com.example.demo.beans;
 
 public class Playlist {
-
 	private String nombre;
 	private int id_usuario;
 	
@@ -16,6 +15,10 @@ public class Playlist {
 	}
 	public void setId_usuario(int id_usuario) {
 		this.id_usuario = id_usuario;
+	}
+	@Override
+	public String toString() {
+		return "Playlist [nombre=" + nombre + ", id_usuario=" + id_usuario + "]";
 	}
 	
 }

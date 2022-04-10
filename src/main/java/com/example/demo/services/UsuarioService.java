@@ -23,16 +23,20 @@ public class UsuarioService implements IUsuarioService {
 	@Override
 	public void crearUsuario(Usuario usuario) {
 		//si el usuario no existe, crear el usuario
-		if(gestor.buscarUsuario(usuario.getNombre()) == false) {
+		if(gestor.existeUsuario(usuario.getNombre()) == false) {
 			gestor.crearUsuario(usuario);
 		}
 	}
-	
+	public Usuario buscarUsuario(String nombre) {
+		return gestor.buscarUsuario(nombre);
+	}
 	@Override
 	public List<Usuario> todosLosUsuarios() {
 		return gestor.todosLosUsuarios();
 	}
-	
+	public int buscarIdUsuario(String nombre) {
+		return gestor.buscarIdUsuario(nombre);
+	}
 	@Override
 	public void eliminarUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub

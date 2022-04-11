@@ -9,4 +9,5 @@ public interface IUsuarioService {
 	public List<Usuario> todosLosUsuarios();
 	public Usuario buscarUsuario(String nombre);
 	public void eliminarUsuario(Usuario usuario);
+	public int buscarIdUsuario(String nombre);
 }

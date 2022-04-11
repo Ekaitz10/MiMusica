@@ -7,13 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.beans.Cancion;
 import com.example.demo.beans.Playlist;
-import com.example.demo.beans.Usuario;
 import com.example.demo.db.GestorDB;
 import com.example.demo.interfaces.IPlaylistService;
 
 @Service
 public class PlaylistService implements IPlaylistService{
-
+	
 	GestorDB gestor;
 	
 	@Autowired
@@ -23,16 +22,15 @@ public class PlaylistService implements IPlaylistService{
 	
 	@Override
 	public void crearPlaylist(Playlist playlist) {
-		gestor.crearPlaylist(playlist);
+		//si la playlist no existe, crear el usuario
+				if(gestor.existePlaylist(playlist.getNombre()) == false) {
+					gestor.crearPlaylist(playlist);
+				}
 		
 	}
 
 	@Override
 	public List<Playlist> todasLasPlaylists() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public List<Playlist> todasLasPlaylists(Usuario usuario) {
 		// TODO Auto-generated method stub
 		return null;
 	}

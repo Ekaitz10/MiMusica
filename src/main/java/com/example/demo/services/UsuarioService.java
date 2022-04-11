@@ -27,7 +27,6 @@ public class UsuarioService implements IUsuarioService {
 			gestor.crearUsuario(usuario);
 		}
 	}
-	@Override
 	public Usuario buscarUsuario(String nombre) {
 		return gestor.buscarUsuario(nombre);
 	}
@@ -35,7 +34,9 @@ public class UsuarioService implements IUsuarioService {
 	public List<Usuario> todosLosUsuarios() {
 		return gestor.todosLosUsuarios();
 	}
-	
+	public int buscarIdUsuario(String nombre) {
+		return gestor.buscarIdUsuario(nombre);
+	}
 	@Override
 	public void eliminarUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub

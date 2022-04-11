@@ -50,7 +50,25 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		}
 		
 	}
-	
+	public Usuario buscarUsuario(String nombre) {
+		Usuario usuario = null;
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM usuarios WHERE nombre = (?)");
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				usuario = new Usuario();
+				usuario.setNombre(rs.getString("nombre"));
+				usuario.setApellido(rs.getString("apellido"));
+				usuario.setEdad(rs.getInt("edad"));
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return usuario;
+	}
 	@Override
 	public boolean existeUsuario(String nombre) {
 		Usuario j = null;
@@ -75,7 +93,6 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
         	return false;
         }
 	}
-	
 	@Override
 	public List<Usuario> todosLosUsuarios() {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
@@ -97,34 +114,28 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
         
 		return usuarios;
 	}
-
-	@Override
-	public Usuario buscarUsuario(String nombre) {
-		Usuario usuario = null;
-		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM usuarios WHERE nombre = (?)");
-			ps.setString(1, nombre);
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				usuario = new Usuario();
-				usuario.setNombre(rs.getString("nombre"));
-				usuario.setApellido(rs.getString("apellido"));
-				usuario.setEdad(rs.getInt("edad"));
-	        }
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-		return usuario;
-	}
-	
 	@Override
 	public void eliminarUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	@Override
+	public int buscarIdUsuario(String nombre) {
+		int id = 0;
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT id FROM usuarios WHERE nombre = (?)");
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				id = rs.getInt("id");
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return id;
+	}
+	
 	@Override
 	public void crearPlaylist(Playlist playlist) {
 		try {
@@ -140,23 +151,48 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		}
 		
 	}
-
 	@Override
 	public List<Playlist> todasLasPlaylists() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	@Override
+	public boolean existePlaylist(String nombre) {
+		Playlist playlist = null;
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM usuarios WHERE nombre = (?)");
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				playlist = new Playlist();
+				playlist.setNombre(rs.getString("nombre"));
+				playlist.setId_usuario(rs.getInt("usuario_id"));
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+        if(playlist != null) {
+        	return true;
+        }else {
+        	return false;
+        }
+	}
 	@Override
 	public void anadirCancion(Cancion cancion) {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public void eliminarPlaylist(Playlist playlist) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public int buscarIdPlaylist(String nombre) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
@@ -164,17 +200,20 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public List<Artista> todosLosArtistas() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public void eliminarArtista(Artista artista) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public int buscarIdArtista(String nombre) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
@@ -182,136 +221,31 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public List<Cancion> todasLasCanciones() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public List<Cancion> buscarCancion(String nombre) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public void eliminarCancion(Cancion cancion) {
 		// TODO Auto-generated method stub
 		
 	}
-	/*
-	//consultas
 	@Override
-	public List<Jugador> todosLosJugadores() {
-		List<Jugador> jugadores = new ArrayList<Jugador>();
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM jugadores");
-			
-			while(rs.next()) {
-				Jugador j = new Jugador();
-				j.setNombre(rs.getString("nombre"));
-				j.setApellido(rs.getString("apellido"));
-				j.setEdad(Integer.parseInt(rs.getString("edad")));
-				j.setEquipo(rs.getString("equipo"));
-				jugadores.add(j);
-	        }
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}catch (ClassNotFoundException e1) {
-			
-			e1.printStackTrace();
-		}
-        
-		return jugadores;
+	public int buscarIdCancion(String nombre) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
-	public List<Equipo> todosLosEquipos() {
-		List<Equipo> equipos = new ArrayList<Equipo>();
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM equipos");
-			
-			while(rs.next()) {
-				Equipo e = new Equipo();
-				e.setNombre(rs.getString("nombre"));
-				e.setAñofundacion(Integer.parseInt(rs.getString("añofundacion")));
-				e.setJugadores(Integer.parseInt(rs.getString("jugadores")));
-				e.setCiudad(rs.getString("ciudad"));
-				e.setTitulos(Integer.parseInt(rs.getString("titulos")));
-				equipos.add(e);
-	        }
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		} catch (ClassNotFoundException e1) {
-			
-			e1.printStackTrace();
-		}
-		return equipos;
-	}
-	
-	public List<Jugador> JugadorElegido(String nombre) {
-		List<Jugador> jugadores = new ArrayList<Jugador>();
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM jugadores WHERE nombre = (?)");
-			ps.setString(1, nombre);
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				Jugador j = new Jugador();
-				j.setNombre(rs.getString("nombre"));
-				j.setApellido(rs.getString("apellido"));
-				j.setEdad(rs.getInt("edad"));
-				j.setEquipo(rs.getString("equipo"));
-				jugadores.add(j);
-	        }
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}catch (ClassNotFoundException e1) {
-			
-			e1.printStackTrace();
-		}
-        
-		return jugadores;
-	}
-	public List<Equipo> EquipoElegido(String nombre) {
-		List<Equipo> equipos = new ArrayList<Equipo>();
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM equipos WHERE nombre = (?)");
-			ps.setString(1, nombre);
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				Equipo e = new Equipo();
-				e.setNombre(rs.getString("nombre"));
-				e.setAñofundacion(Integer.parseInt(rs.getString("añofundacion")));
-				e.setJugadores(rs.getInt("jugadores"));
-				e.setCiudad(rs.getString("ciudad"));
-				e.setTitulos(rs.getInt("titulos"));
-				equipos.add(e);
-	        }
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}catch (ClassNotFoundException e1) {
-			
-			e1.printStackTrace();
-		}
-        
-		return equipos;
-	}
+	/*
 	
 	//actualizar
-	//a�adir jugador
-	public void a�adirJugador(Jugador jugador1) {
+	//añadir jugador
+	public void añadirJugador(Jugador jugador1) {
 		try {
 			Jugador jugadoranadir = new Jugador();
 			jugadoranadir = jugador1;
@@ -327,12 +261,12 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		}
 	}
 	
-	//a�adir equipo
+	//añadir equipo
 	public void anadirEquipo(Equipo equipo1) {
 		try {
 			Equipo equipoanadir = new Equipo();
 			equipoanadir = equipo1;
-			PreparedStatement ps = conn.prepareStatement("insert into equipos (nombre, añofundacion, jugadores, ciudad, titulos) values (?,?,?,?,?)");
+			PreparedStatement ps = conn.prepareStatement("insert into equipos (nombre, aÃ±ofundacion, jugadores, ciudad, titulos) values (?,?,?,?,?)");
 			ps.setString(1, equipoanadir.getNombre());
 			ps.setInt(2, equipoanadir.getAnofundacion());
 			ps.setInt(3, equipoanadir.getJugadores());
@@ -344,8 +278,5 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 			e.printStackTrace();
 		}
 	}
-
-
-
 	*/
 }

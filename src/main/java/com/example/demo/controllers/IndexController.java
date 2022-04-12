@@ -31,7 +31,6 @@ public class IndexController {
 	public ModelAndView index() {
 		ModelAndView m = new ModelAndView();
 		m.addObject("usuarios", usuarioService.todosLosUsuarios());
-		m.addObject("playlists", playlistService.todasLasPlaylists());
 		m.setViewName("index");
 		return m;
 	}

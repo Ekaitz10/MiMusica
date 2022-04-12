@@ -32,12 +32,11 @@ public class UsuarioController {
 	@PostMapping("/perfil")
 	public ModelAndView postIndex(HttpServletRequest request, HttpSession session) {
 		ModelAndView m = new ModelAndView();
-		m.addObject("playlists", playlistService.todasLasPlaylists());
-		m.setViewName("perfilusuario");
 		String nombreusuario = request.getParameter("nombre");
 		Usuario usuario = usuarioService.buscarUsuario(nombreusuario);
 		session.setAttribute("usuario", usuario);
-		System.err.println(request.getSession().getAttribute("usuario"));
+		m.addObject("playlists", playlistService.todasLasPlaylists(usuarioService.buscarIdUsuario(nombreusuario)));
+		m.setViewName("perfilusuario");
 		return m;
 	}
 	
@@ -45,7 +44,9 @@ public class UsuarioController {
 	@GetMapping("/perfil")
 	public ModelAndView getIndex(HttpSession session) {
 		ModelAndView m = new ModelAndView();
-		m.addObject("playlists", playlistService.todasLasPlaylists());
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+		String nombreusuario = usuario.getNombre();
+		m.addObject("playlists", playlistService.todasLasPlaylists(usuarioService.buscarIdUsuario(nombreusuario)));
 		m.setViewName("perfilusuario");
 		return m;
 	}

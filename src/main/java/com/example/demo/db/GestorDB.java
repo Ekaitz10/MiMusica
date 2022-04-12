@@ -115,11 +115,6 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		return usuarios;
 	}
 	@Override
-	public void eliminarUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
 	public int buscarIdUsuario(String nombre) {
 		int id = 0;
 		try {
@@ -134,6 +129,11 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 			e.printStackTrace();
 		}
 		return id;
+	}
+	@Override
+	public void eliminarUsuario(Usuario usuario) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	@Override
@@ -152,9 +152,42 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		
 	}
 	@Override
-	public List<Playlist> todasLasPlaylists() {
-		// TODO Auto-generated method stub
-		return null;
+	public Playlist buscarPlaylist(String nombre) {
+		Playlist playlist = null;
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM playlists WHERE nombre = (?)");
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				playlist = new Playlist();
+				playlist.setNombre(rs.getString("nombre"));
+				playlist.setId_usuario(rs.getInt("usuario_id"));
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return playlist;
+	}
+	public List<Playlist> todasLasPlaylists(int id) {
+		List<Playlist> playlists = new ArrayList<Playlist>();
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM playlists WHERE usuario_id = (?)");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				Playlist anadir = new Playlist();
+				anadir.setNombre(rs.getString("nombre"));
+				anadir.setId_usuario(rs.getInt("usuario_id"));
+				playlists.add(anadir);
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+        
+		return playlists;
 	}
 	@Override
 	public boolean existePlaylist(String nombre) {
@@ -180,9 +213,16 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
         }
 	}
 	@Override
-	public void anadirCancion(Cancion cancion) {
-		// TODO Auto-generated method stub
-		
+	public void anadirCancion(int playlistid, int cancionid) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("insert into cancion_playlist (playlist_id, cancion_id) values (?,?)");
+			ps.setInt(1, playlistid);
+			ps.setInt(2, cancionid);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public void eliminarPlaylist(Playlist playlist) {
@@ -191,19 +231,80 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 	}
 	@Override
 	public int buscarIdPlaylist(String nombre) {
-		// TODO Auto-generated method stub
-		return 0;
+		int id = 0;
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT id FROM playlists WHERE nombre = (?)");
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				id = rs.getInt("id");
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return id;
 	}
 
+	public boolean existeArtista(String nombre) {
+		Artista art = null;
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM artistas WHERE nombre = (?)");
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				art = new Artista();
+				art.setNombre(rs.getString("nombre"));
+				art.setNacionalidad(rs.getString("nacionalidad"));
+				art.setGenero(rs.getString("genero"));
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+        if(art != null) {
+        	return true;
+        }else {
+        	return false;
+        }
+	}
 	@Override
 	public void crearArtista(Artista artista) {
-		// TODO Auto-generated method stub
+		try {
+			Artista artistanadir = new Artista();
+			artistanadir = artista;
+			PreparedStatement ps = conn.prepareStatement("insert into artistas (nombre, nacionalidad, genero) values (?,?,?)");
+			ps.setString(1, artistanadir.getNombre());
+			ps.setString(2, artistanadir.getNacionalidad());
+			ps.setString(3, artistanadir.getGenero());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 		
 	}
 	@Override
 	public List<Artista> todosLosArtistas() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Artista> artistas = new ArrayList<Artista>();
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM artistas");
+			
+			while(rs.next()) {
+				Artista art = new Artista();
+				art.setNombre(rs.getString("nombre"));
+				art.setNacionalidad(rs.getString("nacionalidad"));
+				art.setGenero(rs.getString("genero"));
+				artistas.add(art);
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+        
+		return artistas;
 	}
 	@Override
 	public void eliminarArtista(Artista artista) {
@@ -212,19 +313,103 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 	}
 	@Override
 	public int buscarIdArtista(String nombre) {
-		// TODO Auto-generated method stub
-		return 0;
+		int id = 0;
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT id FROM artistas WHERE nombre = (?)");
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				id = rs.getInt("id");
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return id;
 	}
 
 	@Override
 	public void crearCancion(Cancion cancion) {
-		// TODO Auto-generated method stub
+		try {
+			Cancion cancionanadir = new Cancion();
+			cancionanadir = cancion;
+			PreparedStatement ps = conn.prepareStatement("insert into canciones (titulo, artista_id) values (?,?)");
+			ps.setString(1, cancionanadir.getTitulo());
+			ps.setInt(2, cancionanadir.getArtista_id());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 		
 	}
 	@Override
+	public boolean existeCancion(String titulo) {
+		Cancion cancion = null;
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM canciones WHERE titulo = (?)");
+			ps.setString(1, titulo);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				cancion = new Cancion();
+				cancion.setTitulo(rs.getString("titulo"));
+				cancion.setArtista_id(Integer.parseInt(rs.getString("artista_id")));
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+        if(cancion != null) {
+        	return true;
+        }else {
+        	return false;
+        }
+	}
+	@Override
+	public List<Cancion> todasLasCanciones(int playlist_id) {
+		List<Cancion> canciones = new ArrayList<Cancion>();
+		try {
+			Statement stmt = conn.createStatement();
+			PreparedStatement ps1 = conn.prepareStatement("SELECT cancion_id FROM cancion_playlist WHERE playlist_id = (?)");
+			ps1.setInt(1, playlist_id);
+			ResultSet rs1 = ps1.executeQuery();
+			while(rs1.next()) {
+				PreparedStatement ps2 = conn.prepareStatement("SELECT * FROM canciones WHERE id = (?)");
+				ps2.setInt(1, rs1.getInt(1));
+				ResultSet rs2 = ps2.executeQuery();
+				if(rs2.next()) {
+					Cancion cancion = new Cancion();
+					cancion.setTitulo(rs2.getString("titulo"));
+					cancion.setArtista_id(rs2.getInt("artista_id"));
+					canciones.add(cancion);
+		        }
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+        
+		return canciones;
+	}
 	public List<Cancion> todasLasCanciones() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Cancion> canciones = new ArrayList<Cancion>();
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM canciones");
+			
+			while(rs.next()) {
+				Cancion cancion = new Cancion();
+				cancion.setTitulo(rs.getString("titulo"));
+				cancion.setArtista_id(rs.getInt("artista_id"));
+				canciones.add(cancion);
+	        }
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+        
+		return canciones;
 	}
 	@Override
 	public List<Cancion> buscarCancion(String nombre) {
@@ -237,46 +422,21 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		
 	}
 	@Override
-	public int buscarIdCancion(String nombre) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	/*
-	
-	//actualizar
-	//añadir jugador
-	public void añadirJugador(Jugador jugador1) {
+	public int buscarIdCancion(String titulo) {
+		int id = 0;
 		try {
-			Jugador jugadoranadir = new Jugador();
-			jugadoranadir = jugador1;
-			PreparedStatement ps = conn.prepareStatement("insert into jugadores (nombre, apellido, edad, equipo) values (?,?,?,?)");
-			ps.setString(1, jugadoranadir.getNombre());
-			ps.setString(2, jugadoranadir.getApellido());
-			ps.setInt(3, jugadoranadir.getEdad());
-			ps.setString(4, jugadoranadir.getEquipo());
-			ps.executeUpdate();
+			PreparedStatement ps = conn.prepareStatement("SELECT id FROM canciones WHERE titulo = (?)");
+			ps.setString(1, titulo);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				id = rs.getInt("id");
+	        }
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 		}
+		return id;
 	}
-	
-	//añadir equipo
-	public void anadirEquipo(Equipo equipo1) {
-		try {
-			Equipo equipoanadir = new Equipo();
-			equipoanadir = equipo1;
-			PreparedStatement ps = conn.prepareStatement("insert into equipos (nombre, aÃ±ofundacion, jugadores, ciudad, titulos) values (?,?,?,?,?)");
-			ps.setString(1, equipoanadir.getNombre());
-			ps.setInt(2, equipoanadir.getAnofundacion());
-			ps.setInt(3, equipoanadir.getJugadores());
-			ps.setString(4, equipoanadir.getCiudad());
-			ps.setInt(5, equipoanadir.getTitulos());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-	}
-	*/
+
+
 }

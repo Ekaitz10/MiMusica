@@ -7,7 +7,8 @@ import com.example.demo.beans.Playlist;
 
 public interface IPlaylistService {
 	public void crearPlaylist(Playlist playlist);
-	public List<Playlist> todasLasPlaylists();
-	public void anadirCancion(Cancion cancion);
+	public Playlist buscarPlaylist(String nombre);
+	public List<Playlist> todasLasPlaylists(int id);
+	public void anadirCancion(int playlistid, int cancionid);
 	public void eliminarPlaylist(Playlist playlist);
 }

@@ -28,19 +28,24 @@ public class PlaylistService implements IPlaylistService{
 				}
 		
 	}
-
+	
+	public Playlist buscarPlaylist(String nombre) {
+		return gestor.buscarPlaylist(nombre);
+	}
+	
 	@Override
-	public List<Playlist> todasLasPlaylists() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Playlist> todasLasPlaylists(int id) {
+		return gestor.todasLasPlaylists(id);
 	}
 
 	@Override
-	public void anadirCancion(Cancion cancion) {
-		// TODO Auto-generated method stub
+	public void anadirCancion(int playlistid, int cancionid) {
+		gestor.anadirCancion(playlistid, cancionid);
 		
 	}
-
+	public int buscarIdPlaylist(String nombre) {
+		return gestor.buscarIdPlaylist(nombre);
+	}
 	@Override
 	public void eliminarPlaylist(Playlist playlist) {
 		// TODO Auto-generated method stub

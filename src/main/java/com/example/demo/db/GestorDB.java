@@ -412,7 +412,7 @@ public class GestorDB implements com.example.demo.interfaces.IGestorDB {
 		return canciones;
 	}
 	@Override
-	public List<Cancion> buscarCancion(String nombre) {
+	public Cancion buscarCancion(String nombre) {
 		// TODO Auto-generated method stub
 		return null;
 	}

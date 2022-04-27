@@ -34,7 +34,7 @@ public interface IGestorDB {
 	public void crearCancion(Cancion cancion);
 	boolean existeCancion(String titulo);
 	public List<Cancion> todasLasCanciones(int playlist_id);
-	public List<Cancion> buscarCancion(String titulo);
+	public Cancion buscarCancion(String titulo);
 	public void eliminarCancion(Cancion cancion);
 	public int buscarIdCancion(String nombre);
 }

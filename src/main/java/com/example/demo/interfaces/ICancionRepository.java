@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.example.demo.beans.Cancion;
 
-public interface ICancionService {
+public interface ICancionRepository {
 	public void crearCancion(Cancion cancion);
+	boolean existeCancion(String titulo);
 	public List<Cancion> todasLasCanciones(int playlist_id);
 	public Cancion buscarCancion(String titulo);
 	public void eliminarCancion(Cancion cancion);

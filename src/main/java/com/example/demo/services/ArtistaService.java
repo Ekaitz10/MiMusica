@@ -7,29 +7,31 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.beans.Artista;
 import com.example.demo.db.GestorDB;
+import com.example.demo.db.JdbcArtistaRepository;
 import com.example.demo.interfaces.IArtistaService;
 
 @Service
 public class ArtistaService implements IArtistaService{
 	
-	GestorDB gestor;
+	JdbcArtistaRepository jdbcArtistaRepository;
 	
 	@Autowired
-	public ArtistaService(GestorDB gestor) {
-		this.gestor = gestor;
+	public void setJdbcArtistaRepository(JdbcArtistaRepository jdbcArtistaRepository) {
+		this.jdbcArtistaRepository = jdbcArtistaRepository;
 	}
+	
 	@Override
 	public void crearArtista(Artista artista) {
-		if(gestor.existeArtista(artista.getNombre()) == false) {
-			gestor.crearArtista(artista);
+		if(jdbcArtistaRepository.existeArtista(artista.getNombre()) == false) {
+			jdbcArtistaRepository.crearArtista(artista);
 		}
 	}
 	public int buscarIdArtista(String nombre) {
-		return gestor.buscarIdArtista(nombre);
+		return jdbcArtistaRepository.buscarIdArtista(nombre);
 	}
 	@Override
 	public List<Artista> todosLosArtistas() {
-		return gestor.todosLosArtistas();
+		return jdbcArtistaRepository.todosLosArtistas();
 	}
 
 	@Override

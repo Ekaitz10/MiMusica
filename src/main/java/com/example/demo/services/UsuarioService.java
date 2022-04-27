@@ -7,35 +7,35 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.beans.Usuario;
 import com.example.demo.db.GestorDB;
+import com.example.demo.db.JdbcUsuarioRepository;
 import com.example.demo.interfaces.IUsuarioService;
 
 @Service
 public class UsuarioService implements IUsuarioService {
 
-	
-	GestorDB gestor;
+	JdbcUsuarioRepository jdbcUsuarioRepository;
 	
 	@Autowired
-	public UsuarioService(GestorDB gestor) {
-		this.gestor = gestor;
+	public void setJdbcUsuarioRepository(JdbcUsuarioRepository jdbcUsuarioRepository) {
+		this.jdbcUsuarioRepository = jdbcUsuarioRepository;
 	}
 	
 	@Override
 	public void crearUsuario(Usuario usuario) {
 		//si el usuario no existe, crear el usuario
-		if(gestor.existeUsuario(usuario.getNombre()) == false) {
-			gestor.crearUsuario(usuario);
+		if(jdbcUsuarioRepository.existeUsuario(usuario.getNombre()) == false) {
+			jdbcUsuarioRepository.crearUsuario(usuario);
 		}
 	}
 	public Usuario buscarUsuario(String nombre) {
-		return gestor.buscarUsuario(nombre);
+		return jdbcUsuarioRepository.buscarUsuario(nombre);
 	}
 	@Override
 	public List<Usuario> todosLosUsuarios() {
-		return gestor.todosLosUsuarios();
+		return jdbcUsuarioRepository.todosLosUsuarios();
 	}
 	public int buscarIdUsuario(String nombre) {
-		return gestor.buscarIdUsuario(nombre);
+		return jdbcUsuarioRepository.buscarIdUsuario(nombre);
 	}
 	@Override
 	public void eliminarUsuario(Usuario usuario) {

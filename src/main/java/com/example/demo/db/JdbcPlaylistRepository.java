@@ -2,6 +2,7 @@ package com.example.demo.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,32 +13,36 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.beans.Cancion;
 import com.example.demo.beans.Playlist;
-import com.example.demo.beans.Usuario;
 import com.example.demo.interfaces.IPlaylistRepository;
 
 @Repository
 public class JdbcPlaylistRepository implements IPlaylistRepository {
 	private JdbcTemplate jdbc;
+	private JdbcCancionRepository jdbcCancionRepository;
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	@Autowired
-	public JdbcPlaylistRepository(JdbcTemplate jdbc, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+	public JdbcPlaylistRepository(JdbcTemplate jdbc, JdbcCancionRepository jdbcCancionRepository, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
 		this.jdbc = jdbc;
+		this.jdbcCancionRepository = jdbcCancionRepository;
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 	}
 	
 	private Playlist mapRowToPlaylist(ResultSet rs, int rowNum) throws SQLException {
-		Playlist playlist = new Playlist();
+		/*Playlist playlist = new Playlist();
 		playlist.setNombre(rs.getString("nombre"));
-		playlist.setId_usuario(rs.getInt("usuario_id"));
-		return playlist;
+		playlist.setUsuario();
+		return playlist;*/
+		return null;
 	}
 	
 	@Override
 	public void crearPlaylist(Playlist playlist) {
-		jdbc.update("INSERT INTO playlists (nombre, usuario_id) VALUES (?,?)",
+		/*jdbc.update("INSERT INTO playlists (nombre, usuario_id) VALUES (?,?)",
 				playlist.getNombre(),
-				playlist.getId_usuario());
+				playlist.getIdUsuario());
+	*/
 	}
 
 	@Override
@@ -62,10 +67,16 @@ public class JdbcPlaylistRepository implements IPlaylistRepository {
 	}
 
 	@Override
-	public void anadirCancion(int playlistid, int cancionid) {
-		jdbc.update("insert into cancion_playlist (playlist_id, cancion_id) values (?,?)",
-				playlistid, cancionid);
-		
+	public void anadirCancion(Playlist playlist, int playlistid, int cancionid) {
+		Cancion cancion = jdbcCancionRepository.buscarCancion(cancionid);
+		List<Cancion> canciones  = playlist.getCanciones();
+		if(canciones == null) {
+			 canciones = new ArrayList<Cancion>();
+		}
+		canciones.add(cancion);
+		playlist.setCanciones(canciones);
+		System.out.println(canciones.size());
+		jdbc.update("insert into cancion_playlist (playlist_id, cancion_id) values (?,?)",playlistid, cancionid);
 	}
 
 	@Override

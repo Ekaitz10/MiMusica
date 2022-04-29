@@ -57,13 +57,11 @@ public class PlaylistController {
 	//crea una playlist y devuelve la vista /perfil
 	@PostMapping("/crearplaylist")
 	public ModelAndView creaPlaylist(HttpSession session,@ModelAttribute Playlist playlist) {
-		
 		Usuario usuario = (Usuario) session.getAttribute("usuario");
-		String nombreusuario = usuario.getNombre();
 		ModelAndView m = new ModelAndView();
-		playlist.setId_usuario(usuarioService.buscarIdUsuario(nombreusuario));
+		playlist.setUsuario(usuario);
 		playlistService.crearPlaylist(playlist);
-		m.addObject("playlists", playlistService.todasLasPlaylists(usuarioService.buscarIdUsuario(nombreusuario)));
+		m.addObject("playlists", playlistService.todasLasPlaylists(usuarioService.buscarIdUsuario(usuario.getNombre())));
 		m.setViewName("redirect:/perfil");
 		return m;
 	}

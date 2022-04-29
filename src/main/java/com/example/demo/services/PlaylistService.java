@@ -6,15 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.beans.Playlist;
-import com.example.demo.db.GestorDB;
 import com.example.demo.db.JdbcPlaylistRepository;
-import com.example.demo.db.JdbcUsuarioRepository;
 import com.example.demo.interfaces.IPlaylistService;
+import com.example.demo.repositorios.PlaylistRepository;
 
 @Service
 public class PlaylistService implements IPlaylistService{
 	
 	JdbcPlaylistRepository jdbcPlaylistRepository;
+	
+	@Autowired
+	PlaylistRepository pServ;
 	
 	@Autowired
 	public void setJdbcPlaylistRepository(JdbcPlaylistRepository jdbcPlaylistRepository) {
@@ -24,24 +26,23 @@ public class PlaylistService implements IPlaylistService{
 	@Override
 	public void crearPlaylist(Playlist playlist) {
 		//si la playlist no existe, crear el usuario
-		if(jdbcPlaylistRepository.existePlaylist(playlist.getNombre()) == false) {
-			jdbcPlaylistRepository.crearPlaylist(playlist);
-		}	
+		if(pServ.existsById(playlist.getId()) == false) {
+			pServ.save(playlist);
+		}
 	}
 	
 	public Playlist buscarPlaylist(String nombre) {
-		return jdbcPlaylistRepository.buscarPlaylist(nombre);
+		return pServ.findByName(nombre).get(0);
 	}
 	
 	@Override
 	public List<Playlist> todasLasPlaylists(int id) {
-		return jdbcPlaylistRepository.todasLasPlaylists(id);
+		return pServ.findAllByUsuario(id);
 	}
 
 	@Override
-	public void anadirCancion(int playlistid, int cancionid) {
-		jdbcPlaylistRepository.anadirCancion(playlistid, cancionid);
-		
+	public void anadirCancion(Playlist playlist,int playlistid, int cancionid) {
+		jdbcPlaylistRepository.anadirCancion(playlist, playlistid, cancionid);
 	}
 	public int buscarIdPlaylist(String nombre) {
 		return jdbcPlaylistRepository.buscarIdPlaylist(nombre);

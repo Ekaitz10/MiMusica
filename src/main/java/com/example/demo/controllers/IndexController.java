@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.beans.Usuario;
-import com.example.demo.db.JdbcUsuarioRepository;
 import com.example.demo.services.PlaylistService;
 import com.example.demo.services.UsuarioService;
 
@@ -17,7 +16,6 @@ public class IndexController {
 	
 	PlaylistService playlistService;
 	UsuarioService usuarioService;
-	JdbcUsuarioRepository jdbcUsuarioRepository;
 	
 	@Autowired
 	public void setPlaylistService(PlaylistService playlistService) {

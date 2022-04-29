@@ -29,6 +29,7 @@ public class JdbcUsuarioRepository implements IUsuarioRepository {
 	
 	private Usuario mapRowToUsuario(ResultSet rs, int rowNum) throws SQLException {
 		Usuario user = new Usuario();
+		user.setId(rs.getInt("id"));
 		user.setNombre(rs.getString("nombre"));
 		user.setApellido(rs.getString("apellido"));
 		user.setEdad(rs.getInt("edad"));

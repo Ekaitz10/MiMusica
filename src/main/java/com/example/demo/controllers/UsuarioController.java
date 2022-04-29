@@ -24,7 +24,7 @@ public class UsuarioController {
 		this.usuarioService = usuarioService;
 	}
 	@Autowired
-	public void setUsuarioService(PlaylistService playlistService) {
+	public void setPlaylistService(PlaylistService playlistService) {
 		this.playlistService = playlistService;
 	}
 	

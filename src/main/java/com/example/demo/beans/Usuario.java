@@ -1,31 +1,33 @@
 package com.example.demo.beans;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor(access=AccessLevel.PUBLIC, force=true)
+@Entity
+@Table(name="usuarios")
 public class Usuario {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+	@NotNull
+	@Column(nullable=false)
 	private String nombre;
+	@NotNull
+	@Column(nullable=false)
 	private String apellido;
+	@NotNull
+	@Column(nullable=false)
 	private int edad;
-	
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getApellido() {
-		return apellido;
-	}
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
-	public int getEdad() {
-		return edad;
-	}
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
-	@Override
-	public String toString() {
-		return "Usuario [nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad + "]";
-	}
 	
 }

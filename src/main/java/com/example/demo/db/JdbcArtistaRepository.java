@@ -64,7 +64,9 @@ public class JdbcArtistaRepository implements IArtistaRepository{
 		// TODO Auto-generated method stub
 		
 	}
-
+	public Artista buscarArtista() {
+		return null;
+	}
 	@Override
 	public int buscarIdArtista(String nombre) {
 		int id;

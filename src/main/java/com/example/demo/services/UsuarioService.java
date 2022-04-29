@@ -6,14 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.beans.Usuario;
-import com.example.demo.db.GestorDB;
 import com.example.demo.db.JdbcUsuarioRepository;
 import com.example.demo.interfaces.IUsuarioService;
+import com.example.demo.repositorios.UsuarioRepository;
 
 @Service
 public class UsuarioService implements IUsuarioService {
 
 	JdbcUsuarioRepository jdbcUsuarioRepository;
+	
+	@Autowired
+	UsuarioRepository uServ;
 	
 	@Autowired
 	public void setJdbcUsuarioRepository(JdbcUsuarioRepository jdbcUsuarioRepository) {
@@ -23,8 +26,8 @@ public class UsuarioService implements IUsuarioService {
 	@Override
 	public void crearUsuario(Usuario usuario) {
 		//si el usuario no existe, crear el usuario
-		if(jdbcUsuarioRepository.existeUsuario(usuario.getNombre()) == false) {
-			jdbcUsuarioRepository.crearUsuario(usuario);
+		if(uServ.existsById(usuario.getId()) == false) {
+			uServ.save(usuario);
 		}
 	}
 	public Usuario buscarUsuario(String nombre) {

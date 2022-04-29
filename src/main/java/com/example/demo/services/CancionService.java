@@ -6,15 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.beans.Cancion;
-import com.example.demo.db.GestorDB;
 import com.example.demo.db.JdbcCancionRepository;
 import com.example.demo.interfaces.ICancionService;
+import com.example.demo.repositorios.CancionRepository;
 
 @Service
 public class CancionService implements ICancionService{
 	
 	JdbcCancionRepository jdbcCancionRepository;
-	
+	@Autowired
+	CancionRepository cServ;
 	@Autowired
 	public void setJdbcPlaylistRepository(JdbcCancionRepository jdbcCancionRepository) {
 		this.jdbcCancionRepository = jdbcCancionRepository;
@@ -22,12 +23,18 @@ public class CancionService implements ICancionService{
 	
 	@Override
 	public void crearCancion(Cancion cancion) {
-		if(jdbcCancionRepository.existeCancion(cancion.getTitulo()) == false) {
-			jdbcCancionRepository.crearCancion(cancion);
+		if(cServ.existsById(cancion.getId()) == false) {
+			cServ.save(cancion);
 		}
 		
 	}
 
+	@Override
+	public List<Cancion> todasLasCanciones() {
+		// TODO Auto-generated method stub
+		return jdbcCancionRepository.todasLasCanciones();
+	}
+	
 	@Override
 	public List<Cancion> todasLasCanciones(int playlist_id) {
 		return jdbcCancionRepository.todasLasCanciones(playlist_id);
@@ -37,9 +44,9 @@ public class CancionService implements ICancionService{
 	}
 
 	@Override
-	public Cancion buscarCancion(String titulo) {
+	public Cancion buscarCancion(int id) {
 		// TODO Auto-generated method stub
-		return jdbcCancionRepository.buscarCancion(titulo);
+		return jdbcCancionRepository.buscarCancion(id);
 	}
 
 	@Override
@@ -47,5 +54,5 @@ public class CancionService implements ICancionService{
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 }

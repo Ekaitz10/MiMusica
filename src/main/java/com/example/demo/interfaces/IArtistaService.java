@@ -7,5 +7,6 @@ import com.example.demo.beans.Artista;
 public interface IArtistaService {
 	public void crearArtista(Artista artista);
 	public List<Artista> todosLosArtistas();
+	public Artista buscarArtista();
 	public void eliminarArtista(Artista artista);
 }

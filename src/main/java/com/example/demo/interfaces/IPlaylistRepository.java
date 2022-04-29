@@ -9,7 +9,7 @@ public interface IPlaylistRepository {
 	public Playlist buscarPlaylist(String nombre);
 	public List<Playlist> todasLasPlaylists(int id);
 	boolean existePlaylist(String nombre);
-	public void anadirCancion(int playlistid, int cancionid);
+	public void anadirCancion(Playlist playlist, int playlistid, int cancionid);
 	public void eliminarPlaylist(Playlist playlist);
 	public int buscarIdPlaylist(String nombre);
 }

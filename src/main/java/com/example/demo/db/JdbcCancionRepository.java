@@ -34,17 +34,18 @@ public class JdbcCancionRepository implements ICancionRepository{
 	
 	private Cancion mapRowToCancion(ResultSet rs, int rowNum) throws SQLException {
 		Cancion cancion = new Cancion();
+		cancion.setId(rs.getInt("id"));
 		cancion.setTitulo(rs.getString("titulo"));
-		cancion.setArtista_id(rs.getInt("artista_id"));
+		//cancion.setArtista_id(rs.getInt("artista_id"));
 		return cancion;
 	}
 	
 
 	@Override
 	public void crearCancion(Cancion cancion) {
-		jdbc.update("insert into canciones (titulo, artista_id) values (?,?)",
+		/*jdbc.update("insert into canciones (titulo, artista_id) values (?,?)",
 				cancion.getTitulo(),
-				cancion.getArtista_id());
+				cancion.getArtista_id());*/
 	}
 	
 	@Override
@@ -57,35 +58,41 @@ public class JdbcCancionRepository implements ICancionRepository{
         	return false;
         }
 	}
-
+	
+	@Override
+	public List<Cancion> todasLasCanciones() {
+		return (List) jdbc.query("SELECT * FROM canciones", this::mapRowToCancion);
+	}
+	
 	@Override
 	public List<Cancion> todasLasCanciones(int playlist_id) {
 		List<Cancion> canciones = new ArrayList<Cancion>();
-		List<Integer> rs1 = (List) jdbc.queryForList("SELECT cancion_id FROM cancion_playlist WHERE playlist_id = ?", playlist_id);
-		Iterator<Integer> it1 = rs1.iterator();
-		while(it1.hasNext()) {
-			Iterable<Cancion> rs2 = jdbc.query("SELECT * FROM canciones WHERE id = ?", this::mapRowToCancion, it1);
+		List<Map<String, Object>> rs1 = jdbc.queryForList("SELECT cancion_id FROM cancion_playlist WHERE playlist_id = ?", playlist_id);
+		
+		for (Map mapa : rs1) {
+			int idCancion = ((Integer)mapa.get("cancion_id")).intValue();
+			Iterable<Cancion> rs2 = jdbc.query("SELECT * FROM canciones WHERE id = ?", this::mapRowToCancion, idCancion);
 			Iterator<Cancion> it2 = rs2.iterator();
 			if(it2.hasNext()) {
 				Cancion cancion = new Cancion();
-				cancion.setTitulo(it2.next().getTitulo());
-				cancion.setArtista_id(it2.next().getArtista_id());
+				cancion = it2.next();
 				canciones.add(cancion);
 	        }
-		}    
+			
+		}
 		return canciones;
 	}
 
 	@Override
-	public Cancion buscarCancion(String titulo) {
-		return jdbc.query("SELECT * FROM cancion WHERE titulo = ?", this::mapRowToCancion, titulo).get(0);
+	public Cancion buscarCancion(int id) {
+		return jdbc.query("SELECT * FROM canciones WHERE id = ?", this::mapRowToCancion, id).get(0);
 	}
 	
 	@Override
 	public int buscarIdCancion(String nombre) {
 		int id;
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("nombre", nombre);
-		int rs = namedParameterJdbcTemplate.queryForObject("SELECT id FROM canciones WHERE nombre = :nombre",namedParameters, Integer.class);
+		int rs = namedParameterJdbcTemplate.queryForObject("SELECT id FROM canciones WHERE titulo = :nombre",namedParameters, Integer.class);
 		id = rs;
 		return id;
 	}
@@ -95,5 +102,7 @@ public class JdbcCancionRepository implements ICancionRepository{
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 
 }

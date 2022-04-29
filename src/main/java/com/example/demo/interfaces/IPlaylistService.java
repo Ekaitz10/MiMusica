@@ -9,6 +9,6 @@ public interface IPlaylistService {
 	public void crearPlaylist(Playlist playlist);
 	public Playlist buscarPlaylist(String nombre);
 	public List<Playlist> todasLasPlaylists(int id);
-	public void anadirCancion(int playlistid, int cancionid);
+	public void anadirCancion(Playlist playlist, int playlistid, int cancionid);
 	public void eliminarPlaylist(Playlist playlist);
 }

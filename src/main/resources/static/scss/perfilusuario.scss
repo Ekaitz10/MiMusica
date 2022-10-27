@@ -1,0 +1,29 @@
+$success: #198754;
+$dark: #212529;
+
+//PRIMER MIXIN
+@mixin scroll(){
+	overflow: scroll;
+	overflow-x: hidden;
+	overflow-y: hiddden;
+	height: 65vh;
+	scrollbar-color: $success $dark;
+  	scrollbar-width: thin;
+	
+	@if (ul li:nth-last-child(3)){
+		overflow-y: visible;
+	}
+}
+
+#contenedorPlaylists{
+	@include scroll();
+}
+
+//TRANSFORMACION
+li{
+	transition: transform 0.2s ease-in-out;
+}
+
+li:hover {
+	transform: scale(1.0050);
+}

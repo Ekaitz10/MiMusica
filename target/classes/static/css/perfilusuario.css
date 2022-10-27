@@ -1,0 +1,19 @@
+#contenedorPlaylists {
+  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: hiddden;
+  height: 65vh;
+  scrollbar-color: #198754 #212529;
+  scrollbar-width: thin;
+  overflow-y: visible;
+}
+
+li {
+  transition: transform 0.2s ease-in-out;
+}
+
+li:hover {
+  transform: scale(1.005);
+}
+
+/*# sourceMappingURL=perfilusuario.css.map */

@@ -1,0 +1,59 @@
+<html>
+<head>
+	<title>MiMusica</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<!-- CSS only -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/perfilusuario.css">
+	<!-- JavaScript Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<script type="text/javascript" th:src="@{/js/eliminarPlaylists.js}"></script>
+	<script src="https://cdn.lordicon.com/pzdvqjsp.js"></script>
+</head>
+<body class="bg-dark text-light container-fluid p-0">
+	<nav class="navbar navbar-light bg-light">
+	  <div class="container-fluid">
+	    <a class="navbar-brand" th:href="@{/}">MiMusica</a>
+	  </div>
+	</nav>
+	<div class="row p-0 pt-5 m-0">
+		<div class="col-12">
+			<h1 class="text-end" th:text="'Bienvenido '+ ${session.usuario.nombreUsuario}"></h1>
+		</div>
+	</div>
+	<div class="row p-0 pt-5 m-0 pb-3">
+		<div class="col-8" id="contenedorPlaylists">
+			<ul class="list-group list-group-flush">
+				<li th:each="playlist : ${playlists}" class="list-group-item d-flex justify-content-between align-items-center pt-4 pb-4">
+					<p th:text="${playlist.nombre}"></p>
+					<div>
+					<form method="GET" action="/perfil/playlist">
+						<input type="hidden" th:attr="value=${playlist.nombre}" name="nombre">
+						<button class="btn btn-success" type="submit">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-music-note-list" viewBox="0 0 16 16">
+						  <path d="M12 13c0 1.105-1.12 2-2.5 2S7 14.105 7 13s1.12-2 2.5-2 2.5.895 2.5 2z"/>
+						  <path fill-rule="evenodd" d="M12 3v10h-1V3h1z"/>
+						  <path d="M11 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 16 2.22V4l-5 1V2.82z"/>
+						  <path fill-rule="evenodd" d="M0 11.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 7H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 3H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"/>
+						</svg>
+						</button>
+					</form>
+					</div>
+			  	</li>
+			</ul>
+			<p th:if="${playlists.empty}" class="text-center text-muted">Actualmente no tienes ninguna playlist creada.</p>
+		</div>
+		<div class="col-4">
+			<form method="POST" action="/crearplaylist">
+				<div class="mb-3">
+				    <label class="form-label">Nueva Playlist</label>
+				    <input type="text" class="form-control" name="nombre" placeholder="Nombre de la playlist">
+				 </div>
+				 <input type="submit" class="btn btn-success col-12" value="Crear">
+			</form>
+			<form method="GET" action="/administrarcontenido">
+				<input type="submit" class="btn btn-success col-12" value="Administrar Contenido">
+			</form>
+		</div>
+	</div>
+</html>

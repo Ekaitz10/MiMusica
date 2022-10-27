@@ -1,0 +1,52 @@
+$success: #198754;
+$dark: #212529;
+$light: #f8f9fa;
+
+@mixin estiloCrear(){
+	background-color: $light;
+	box-shadow: 1px 1px 10px $success;
+	border-radius: 10px;
+}
+
+// *** CONTENEDORES ***
+
+h1{
+	color: $dark;
+}
+.contenedor{
+	display: grid;
+	padding: 5%;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 70vh;
+    grid-gap: 1em 1em;
+}
+.crearArtista{
+	grid-column: 1/2;
+	grid-row: 1/2;
+	@include estiloCrear();
+}
+.crearCancion{
+	grid-column: 2/3;
+	grid-row: 1/2;
+	@include estiloCrear();
+}
+
+@media only screen and (max-width: 700px) {
+	.contenedor{
+		display: grid;
+		padding: 5%;
+	    grid-template-columns: 1fr;
+	    grid-template-rows: 70vw 70vw;
+	    grid-gap: 1em 1em;
+	}
+	.crearArtista{
+		grid-column: 1/2;
+		grid-row: 1/2;
+		@include estiloCrear();
+	}
+	.crearCancion{
+		grid-column: 1/2;
+		grid-row: 2/3;
+		@include estiloCrear();
+	}
+}

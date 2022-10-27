@@ -10,10 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Immutable;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name="cancion_playlist")
@@ -23,9 +23,6 @@ public class CancionPlaylist {
 	@Embeddable
 	public static class Id implements Serializable {
 		
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 		@Column(name = "PLAYLIST_ID")
@@ -47,7 +44,7 @@ public class CancionPlaylist {
 	private Id id = new Id();
 	
 	@Column(updatable = false)
-	@NotNull
+	@Nullable
 	@CreationTimestamp
 	private LocalDateTime addedOn;
 	

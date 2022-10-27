@@ -11,6 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.beans.Cancion;
+import com.example.demo.beans.Playlist;
+import com.example.demo.beans.Usuario;
 import com.example.demo.services.ArtistaService;
 import com.example.demo.services.CancionService;
 import com.example.demo.services.PlaylistCancionService;
@@ -56,13 +58,15 @@ public class CancionController {
 		m.setViewName("redirect:administrarcontenido");
 		return m;
 	}
-	@PostMapping("/anadirCancion")	
+	@PostMapping("/anadirCancion")
 	public ModelAndView anadirCancion(@RequestParam("titulo") String titulo, @RequestParam("artista") Long artistaId,HttpSession session, RedirectAttributes redirectAttributes) {
 		ModelAndView m = new ModelAndView();
 		Cancion cancion = cancionService.buscarCancionPorTituloYArtista(titulo, artistaId);
 		cancionService.crearCancion(cancion);
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
 		String nombreplaylist = (String) session.getAttribute("nombreplaylist");
-		playlistCancionService.anadirCancion(playlistService.buscarPlaylist(nombreplaylist), cancion);
+		Playlist playlist = playlistService.buscarPlaylist(nombreplaylist, usuario);
+		playlistCancionService.anadirCancion(playlist, cancion);
 		redirectAttributes.addAttribute("nombre", nombreplaylist);
 		m.setViewName("redirect:perfil/playlist");
 		return m;

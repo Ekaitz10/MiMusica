@@ -1,6 +1,5 @@
 package com.example.demo.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,11 +24,8 @@ public class CancionService implements ICancionService{
 			cRepository.save(cancion);
 		}else {
 			for(Cancion cancionEncontrada : cancionesEncontradas) {
-				System.err.println("Cancion Encontrada: "+cancionEncontrada);
-				System.err.println("Cancion A Guardar: "+cancion);
-				if(cancionEncontrada.equals(cancion)) {
+				if(cancionEncontrada.getTitulo().equals(cancion.getTitulo()) && cancionEncontrada.getArtista().getNombreArtistico().equals(cancion.getArtista().getNombreArtistico())) {
 					cont++;
-					System.err.println("AAA "+cont);
 				}
 			}
 			if(cont == 0) {

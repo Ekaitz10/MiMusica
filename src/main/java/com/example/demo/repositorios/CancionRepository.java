@@ -12,7 +12,7 @@ public interface CancionRepository extends JpaRepository<Cancion, Long> {
 	@Query(value = "SELECT * FROM canciones WHERE titulo = ?1", nativeQuery = true)
 	List<Cancion> findAllByTitulo(String titulo);
 	
-	@Query(value = "SELECT * FROM canciones WHERE titulo = ?1 artista_id = ?2", nativeQuery = true)
+	@Query(value = "SELECT * FROM canciones WHERE titulo = ?1 AND artista_id = ?2", nativeQuery = true)
 	Cancion findByTituloAndArtista(String titulo, Long ArtistaId);
 	
 	@Query(value = "SELECT * FROM cancion_playlist WHERE playlist_id = ?1", nativeQuery = true)

@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.beans.Cancion;
 import com.example.demo.beans.Playlist;
 import com.example.demo.beans.Usuario;
 import com.example.demo.services.ArtistaService;
@@ -45,11 +48,12 @@ public class PlaylistController {
 	public ModelAndView devuelvePlaylist(HttpSession session, HttpServletRequest request) {
 		String nombreplaylist = request.getParameter("nombre");
 		ModelAndView m = new ModelAndView();
-		Playlist playlist = playlistService.buscarPlaylist(nombreplaylist);
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+		Playlist playlist = playlistService.buscarPlaylist(nombreplaylist, usuario);
 		session.setAttribute("nombreplaylist", nombreplaylist);
 		m.addObject("artistas", artistaService.todosLosArtistas());
 		m.addObject("canciones", cancionService.todasLasCanciones());
-		m.addObject("cancionesplaylist", cancionService.todasLasCancionesDePlaylist(playlistService.buscarIdPlaylist(nombreplaylist)));
+		m.addObject("cancionesplaylist", playlist.getCanciones());
 		m.addObject("playlist", playlist);
 		m.setViewName("playlist");
 		return m;
@@ -60,7 +64,7 @@ public class PlaylistController {
 		Usuario usuario = (Usuario) session.getAttribute("usuario");
 		ModelAndView m = new ModelAndView();
 		playlist.setUsuario(usuario);
-		playlistService.crearPlaylist(playlist);
+		playlistService.crearPlaylist(playlist, usuario);
 		m.setViewName("redirect:/perfil");
 		return m;
 	}

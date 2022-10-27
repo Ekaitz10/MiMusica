@@ -12,7 +12,7 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
 	@Query(value = "SELECT * FROM playlists WHERE usuario_id = ?1", nativeQuery = true)
 	List<Playlist> findAllByUsuario(long l);
 	
-	@Query(value = "SELECT * FROM playlists WHERE nombre = ?1", nativeQuery = true)
-	List<Playlist> findByNombre(String nombre);
+	@Query(value = "SELECT * FROM playlists WHERE nombre = ?1 AND usuario_id = ?2", nativeQuery = true)
+	List<Playlist> findByNombre(String nombre, Long usuarioid);
 
 }

@@ -9,7 +9,7 @@ public interface ICancionService {
 	public void crearCancion(Cancion cancion);
 	public List<Cancion> todasLasCanciones();
 	public List<Cancion> todasLasCancionesDePlaylist(Long playlist_id);
-	public Optional<Cancion> buscarCancionPorId(Long id);
+	public Cancion buscarCancionPorId(Long id);
 	public Cancion buscarCancionPorTituloYArtista(String titulo, Long artistaId);
 	public void eliminarCancion(Cancion cancion);
 }

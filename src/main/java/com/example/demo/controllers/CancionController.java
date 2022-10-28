@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.beans.Cancion;
+import com.example.demo.beans.CancionPlaylist;
 import com.example.demo.beans.Playlist;
 import com.example.demo.beans.Usuario;
 import com.example.demo.services.ArtistaService;
@@ -58,7 +59,7 @@ public class CancionController {
 		return m;
 	}
 	@PostMapping("/anadirCancion")
-	public ModelAndView anadirCancion(@RequestParam("titulo") String titulo, @RequestParam("artista") Long artistaId,HttpSession session, RedirectAttributes redirectAttributes) {
+	public ModelAndView anadirCancion(@RequestParam("titulo") String titulo, @RequestParam("artista") Long artistaId, HttpSession session, RedirectAttributes redirectAttributes) {
 		ModelAndView m = new ModelAndView();
 		Cancion cancion = cancionService.buscarCancionPorTituloYArtista(titulo, artistaId);
 		cancionService.crearCancion(cancion);
@@ -66,6 +67,17 @@ public class CancionController {
 		String nombreplaylist = (String) session.getAttribute("nombreplaylist");
 		Playlist playlist = playlistService.buscarPlaylist(nombreplaylist, usuario);
 		playlistCancionService.anadirCancion(playlist, cancion);
+		redirectAttributes.addAttribute("nombre", nombreplaylist);
+		m.setViewName("redirect:perfil/playlist");
+		return m;
+	}
+	
+	@PostMapping("/desvincularCancion")
+	public ModelAndView desvincularCancion(@RequestParam("playlist") Long playlistid, @RequestParam("cancion") Long cancionid, HttpSession session, RedirectAttributes redirectAttributes) {
+		ModelAndView m = new ModelAndView();
+		CancionPlaylist cp = playlistCancionService.buscarPorIds(playlistid, cancionid);
+		playlistCancionService.eliminarCancion(cp);
+		String nombreplaylist = (String) session.getAttribute("nombreplaylist");
 		redirectAttributes.addAttribute("nombre", nombreplaylist);
 		m.setViewName("redirect:perfil/playlist");
 		return m;

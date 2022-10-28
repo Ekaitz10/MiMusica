@@ -19,4 +19,12 @@ public class PlaylistCancionService implements IPlaylistCancionService{
 		CancionPlaylist cp = new CancionPlaylist(playlist, cancion);
 		pcRepository.save(cp);
 	}
+	
+	public CancionPlaylist buscarPorIds(Long playlist, Long cancion) {
+		return cp;
+	}
+	
+	public void eliminarCancion(CancionPlaylist cp) {
+		pcRepository.delete(cp);
+	}
 }

@@ -28,6 +28,9 @@ public class PlaylistService implements IPlaylistService{
 		return pRepository.findByNombre(nombre, usuario.getId()).get(0);
 	}
 	
+	public Playlist buscarPlaylistPorId(Long id) {
+		return pRepository.getById(id);
+	}
 	@Override
 	public List<Playlist> todasLasPlaylists(long l) {
 		List<Playlist> playlists = pRepository.findAllByUsuario(l);

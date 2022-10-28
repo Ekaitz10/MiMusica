@@ -1,0 +1,12 @@
+body{
+	background-color: lightblue;
+}
+body.dark{
+	background-color: #212529;
+}
+h1, h3, label{
+	color: #212529;
+}
+body.dark h1, body.dark h3, body.dark label{
+	color: #f8f9fa;
+}

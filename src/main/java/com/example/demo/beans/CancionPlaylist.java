@@ -15,6 +15,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Immutable;
 import org.springframework.lang.Nullable;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name="cancion_playlist")
 @Immutable

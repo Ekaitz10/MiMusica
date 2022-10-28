@@ -1,7 +1,6 @@
 package com.example.demo.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,8 +44,8 @@ public class CancionService implements ICancionService{
 	}
 	
 	@Override
-	public Optional<Cancion> buscarCancionPorId(Long id) {
-		return cRepository.findById(id);
+	public Cancion buscarCancionPorId(Long id) {
+		return cRepository.getById(id);
 	}
 	
 	@Override
@@ -56,8 +55,7 @@ public class CancionService implements ICancionService{
 	
 	@Override
 	public void eliminarCancion(Cancion cancion) {
-		// TODO Auto-generated method stub
-		
+		cRepository.delete(cancion);
 	}
 
 	

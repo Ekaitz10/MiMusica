@@ -9,5 +9,6 @@ public interface IPlaylistService {
 	public void crearPlaylist(Playlist playlist, Usuario usuario);
 	public Playlist buscarPlaylist(String nombre, Usuario usuario);
 	public List<Playlist> todasLasPlaylists(long id);
+	public Playlist buscarPlaylistPorId(Long id);
 	public void eliminarPlaylist(Playlist playlist);
 }

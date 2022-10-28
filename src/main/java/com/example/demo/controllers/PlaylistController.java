@@ -1,7 +1,5 @@
 package com.example.demo.controllers;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.beans.Cancion;
 import com.example.demo.beans.Playlist;
 import com.example.demo.beans.Usuario;
 import com.example.demo.services.ArtistaService;

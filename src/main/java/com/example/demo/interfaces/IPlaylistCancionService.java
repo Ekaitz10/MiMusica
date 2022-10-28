@@ -6,5 +6,6 @@ import com.example.demo.beans.Playlist;
 
 public interface IPlaylistCancionService {
 	public void anadirCancion(Playlist playlist, Cancion cancion);
-	public CancionPlaylist buscarPorIds(Playlist playlist, Cancion cancion);
+	public CancionPlaylist buscarPorIds(Long playlist, Long cancion);
+	public void eliminarCancion(CancionPlaylist cp);
 }

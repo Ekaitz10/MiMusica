@@ -35,7 +35,6 @@ public class ArtistaService implements IArtistaService{
 
 	@Override
 	public void eliminarArtista(Artista artista) {
-		// TODO Auto-generated method stub
 		
 	}
 

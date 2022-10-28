@@ -9,8 +9,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
-
 @Entity
 @Table(name="usuarios")
 public class Usuario extends Persona {
@@ -28,7 +26,6 @@ public class Usuario extends Persona {
 			@NotNull int edad, @NotNull String nombreUsuario) {
 		super(nombre, apellido, nacionalidad, edad);
 		this.nombreUsuario = nombreUsuario;
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

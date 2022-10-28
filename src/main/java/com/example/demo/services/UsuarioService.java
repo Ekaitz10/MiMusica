@@ -36,7 +36,6 @@ public class UsuarioService implements IUsuarioService {
 	}
 	@Override
 	public void eliminarUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
 		
 	}
 

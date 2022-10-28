@@ -2,6 +2,7 @@ package com.example.demo.beans;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -41,6 +42,28 @@ public class CancionPlaylist {
 			this.playlistId = playlistId;
 			this.cancionId = cancionId;
 		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(cancionId, playlistId);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Id other = (Id) obj;
+			return Objects.equals(cancionId, other.cancionId) && Objects.equals(playlistId, other.playlistId);
+		}
+
+		@Override
+		public String toString() {
+			return "Id [playlistId=" + playlistId + ", cancionId=" + cancionId + "]";
+		}
 	}
 		
 	@EmbeddedId
@@ -72,5 +95,4 @@ public class CancionPlaylist {
 		this.id.playlistId = playlist.getId();
 		this.id.cancionId = cancion.getId();
 	}
-	
 }

@@ -10,3 +10,8 @@ h1, h3, label{
 body.dark h1, body.dark h3, body.dark label{
 	color: #f8f9fa;
 }
+
+body.dark .crearCancion, body.dark .crearArtista{
+	background-color: #999;;
+	box-shadow: 1px 1px 10px #000;
+}

@@ -25,7 +25,7 @@ class PersonaArtistaUsuarioTest {
 	
 	@Test
 	void test() {
-		Usuario user = new Usuario("Ekaitz","Soto","España",21, "Ekaitzsoto10");
+		Usuario user = new Usuario("Ekaitz","Soto","España",21, "Ekaitzsoto10","1234","ADMIN");
 		usuarioRepository.save(user);
 		
 		Artista artista = new Artista("Jaques", "Webster", "Estados Unidos", 30, "Travis Scott", "Hip Hop", "Voz","Cactus Jack Records");

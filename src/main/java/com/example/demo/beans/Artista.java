@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access=AccessLevel.PUBLIC, force=true)
 @Entity
 @Table(name="artistas")
+@RestResource(rel="artistas", path="artistas")
 public class Artista extends Persona{
 	
 	@NotNull

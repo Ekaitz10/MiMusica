@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -27,6 +28,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access=AccessLevel.PUBLIC, force=true)
 @Entity
 @Table(name="canciones")
+@RestResource(rel="canciones", path="canciones")
 public class Cancion {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

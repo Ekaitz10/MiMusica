@@ -15,9 +15,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -27,6 +29,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access=AccessLevel.PUBLIC, force=true)
 @Entity
 @Table(name="playlists")
+@RestResource(rel="playlists", path="playlists")
 public class Playlist {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -34,6 +37,7 @@ public class Playlist {
 	
 	@NotNull
 	@Column(nullable=false)
+	@Size(min = 1)
 	private String nombre;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)

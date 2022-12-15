@@ -4,6 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,45 +23,34 @@ import com.example.demo.services.UsuarioService;
 @Controller
 public class PlaylistController {
 	
+	@Autowired
 	PlaylistService playlistService;
+	@Autowired
 	UsuarioService usuarioService;
+	@Autowired
 	CancionService cancionService;
+	@Autowired
 	ArtistaService artistaService;
-	@Autowired
-	public void setPlaylistService(PlaylistService playlistService) {
-		this.playlistService = playlistService;
-	}
-	@Autowired
-	public void setUsuarioService(UsuarioService usuarioService) {
-		this.usuarioService = usuarioService;
-	}
-	@Autowired
-	public void setCancionService(CancionService cancionService) {
-		this.cancionService = cancionService;
-	}
-	@Autowired
-	public void setArtistaService(ArtistaService artistaService) {
-		this.artistaService = artistaService;
-	}
 	
 	@GetMapping("/perfil/playlist")
 	public ModelAndView devuelvePlaylist(HttpSession session, HttpServletRequest request) {
 		String nombreplaylist = request.getParameter("nombre");
 		ModelAndView m = new ModelAndView();
-		Usuario usuario = (Usuario) session.getAttribute("usuario");
-		Playlist playlist = playlistService.buscarPlaylist(nombreplaylist, usuario);
+		String nombreusuario = SecurityContextHolder.getContext().getAuthentication().getName();
+		Playlist playlist = playlistService.buscarPlaylist(nombreplaylist, usuarioService.buscarUsuario(nombreusuario));
 		session.setAttribute("nombreplaylist", nombreplaylist);
 		m.addObject("artistas", artistaService.todosLosArtistas());
-		m.addObject("canciones", cancionService.todasLasCanciones());
 		m.addObject("cancionesplaylist", playlist.getCanciones());
 		m.addObject("playlist", playlist);
+		m.addObject("canciones", cancionService.todasLasCanciones());
 		m.setViewName("playlist");
 		return m;
 	}
 	//crea una playlist y devuelve la vista /perfil
 	@PostMapping("/crearplaylist")
-	public ModelAndView creaPlaylist(HttpSession session,@ModelAttribute Playlist playlist) {
-		Usuario usuario = (Usuario) session.getAttribute("usuario");
+	public ModelAndView creaPlaylist(@ModelAttribute Playlist playlist) {
+		String nombreusuario = SecurityContextHolder.getContext().getAuthentication().getName();
+		Usuario usuario = usuarioService.buscarUsuario(nombreusuario);
 		ModelAndView m = new ModelAndView();
 		playlist.setUsuario(usuario);
 		playlistService.crearPlaylist(playlist, usuario);

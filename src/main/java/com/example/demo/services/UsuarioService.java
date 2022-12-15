@@ -18,25 +18,25 @@ public class UsuarioService implements IUsuarioService {
 	@Override
 	public void crearUsuario(Usuario usuario) {
 		//si el usuario no existe, crear el usuario
-		List<Usuario> usuariosEncontrados = uRepository.findByNombreUsuario(usuario.getNombreUsuario());
+		List<Usuario> usuariosEncontrados = uRepository.findUserByUsername(usuario.getUsername());
 		if(usuariosEncontrados.size() == 0) {
 			uRepository.save(usuario);
 		}
 	}
 	public Usuario buscarUsuario(String nombre) {
-		return uRepository.findByNombreUsuario(nombre).get(0);
+		return uRepository.findUserByUsername(nombre).get(0);
 	}
 	@Override
 	public List<Usuario> todosLosUsuarios() {
 		return uRepository.findAll();
 	}
 	public long buscarIdUsuario(String nombre) {
-		return uRepository.findByNombreUsuario(nombre).get(0).getId();
+		return uRepository.findUserByUsername(nombre).get(0).getId();
 		
 	}
 	@Override
 	public void eliminarUsuario(Usuario usuario) {
-		
+		uRepository.delete(usuario);
 	}
 
 }

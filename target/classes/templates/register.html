@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<head>
+		<title>MiMusica</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<script src="https://cdn.tailwindcss.com"></script>
+	</head>
+	<body class="flex flex-col justify-center h-screen items-center bg-[#212529]">
+		<div class="absolute mb-80 border rounded-full bg-black p-4 text-white">
+	        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+	            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+	        </svg>
+	    </div>
+		<form method="POST" action="/register" th:object="${usuario}">
+			<div class="bg-white self-center py-10 px-10 flex flex-col">
+				<div class="bg-gray-200 mb-2 flex flex-wrap">
+				    <input type="text" class="bg-transparent" placeholder="Nombre" name="nombre">
+				</div>
+				<div class="bg-gray-200 mb-2 flex flex-wrap">
+					<input type="text" class="bg-transparent" placeholder="Apellido" name="apellido">
+				 </div>
+				 <div class="bg-gray-200 mb-2 flex flex-wrap">
+					<input type="text" class="bg-transparent" placeholder="Nombre de Usuario" name="username">
+				 </div>
+				 <div class="bg-gray-200 mb-2 flex flex-wrap">
+					<input type="password" class="bg-transparent" placeholder="Contraseña" name="password">
+				</div>
+				 <div class="bg-gray-200 mb-2 flex flex-wrap">
+					<input type="text" class="bg-transparent" placeholder="Edad" name="edad">
+				 </div>
+				 <div class="bg-gray-200 mb-2 flex flex-wrap">
+					<input type="text" class="bg-transparent" placeholder="Nacionalidad" name="nacionalidad">
+				 </div>
+				 <input type="submit" class="text-white font-bold py-2 bg-gradient-to-b from-[#25b874] to-[#198754]" value="Registrar">
+				 <p>¿Ya estás registrado? <a class="text-center text-[#198754] underline decoration-solid" th:href="@{/register}">Inicia Sesión</a><p>
+			</div>
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		</form>
+	</body>
+</html>

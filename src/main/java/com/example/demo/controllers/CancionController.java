@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,33 +19,25 @@ import com.example.demo.services.ArtistaService;
 import com.example.demo.services.CancionService;
 import com.example.demo.services.PlaylistCancionService;
 import com.example.demo.services.PlaylistService;
+import com.example.demo.services.UsuarioService;
 
 @Controller
 public class CancionController {
+	
+	@Autowired
 	CancionService cancionService;
+	
+	@Autowired
 	ArtistaService artistaService;
+	
+	@Autowired
 	PlaylistService playlistService;
+	
+	@Autowired
+	UsuarioService usuarioService;
+	
+	@Autowired
 	PlaylistCancionService playlistCancionService;
-	
-	@Autowired
-	public void setCancionService(CancionService cancionService) {
-		this.cancionService = cancionService;
-	}
-	
-	@Autowired
-	public void setArtistaService(ArtistaService artistaService) {
-		this.artistaService = artistaService;
-	}
-	
-	@Autowired
-	public void setPlaylistService(PlaylistService playlistService) {
-		this.playlistService = playlistService;
-	}
-	
-	@Autowired
-	public void setPlaylistCancionService(PlaylistCancionService playlistCancionService) {
-		this.playlistCancionService = playlistCancionService;
-	}
 	
 	@PostMapping("/crearcancion")
 	public ModelAndView crearCancion(HttpSession session, HttpServletRequest request, @RequestParam("titulo") String titulo, @RequestParam("artista") Long idArtista, RedirectAttributes redirectAttributes) {
@@ -63,7 +56,8 @@ public class CancionController {
 		ModelAndView m = new ModelAndView();
 		Cancion cancion = cancionService.buscarCancionPorTituloYArtista(titulo, artistaId);
 		cancionService.crearCancion(cancion);
-		Usuario usuario = (Usuario) session.getAttribute("usuario");
+		String nombreusuario = SecurityContextHolder.getContext().getAuthentication().getName();
+		Usuario usuario = (Usuario) usuarioService.buscarUsuario(nombreusuario);
 		String nombreplaylist = (String) session.getAttribute("nombreplaylist");
 		Playlist playlist = playlistService.buscarPlaylist(nombreplaylist, usuario);
 		playlistCancionService.anadirCancion(playlist, cancion);

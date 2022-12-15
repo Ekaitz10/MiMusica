@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.beans.SecurityUser;
 import com.example.demo.beans.Usuario;
 import com.example.demo.security.UserDetailsManager;
 import com.example.demo.services.ArtistaService;
@@ -109,7 +112,11 @@ public class IndexController {
 	@GetMapping("/admin/usuarios")
 	public ModelAndView administrarUsuarios() {
 		ModelAndView m = new ModelAndView();
-		m.addObject("usuarios", usuarioService.todosLosUsuarios());
+		List<Usuario> usuarios = usuarioService.todosLosUsuarios();
+		String nombreuser = SecurityContextHolder.getContext().getAuthentication().getName();
+		Usuario currentUser = usuarioService.buscarUsuario(nombreuser);
+		usuarios.remove(currentUser);
+		m.addObject("usuarios", usuarios);
 		m.setViewName("administrarusuarios");
 		return m;
 	}
@@ -119,4 +126,11 @@ public class IndexController {
 		userDetailsManager.delete(Id);
 		return "redirect:/admin/usuarios";
 	}
-}
+	
+	@PostMapping("/admin/user/update")
+	public String updateUser(@RequestParam("role") String role, @RequestParam("username") String username) {
+		Usuario usuario = usuarioService.buscarUsuario(username);
+		usuarioService.updateUser(usuario, role);
+		return "redirect:/admin/usuarios";
+	}
+	}

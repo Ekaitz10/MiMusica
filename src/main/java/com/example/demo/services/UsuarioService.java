@@ -38,5 +38,10 @@ public class UsuarioService implements IUsuarioService {
 	public void eliminarUsuario(Usuario usuario) {
 		uRepository.delete(usuario);
 	}
+	
+	public void updateUser(Usuario user, String role) {
+		user.setRole(role);
+		uRepository.save(user);
+	}
 
 }

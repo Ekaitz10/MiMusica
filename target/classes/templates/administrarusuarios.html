@@ -46,8 +46,13 @@
 					<div class="flip-card-front">
 						<div class="card-body">
 							<h4 class="mb-3" th:text="${usuario.username}"></h4>
-							<p class="card-text"
-								th:text="${usuario.nombre +' '+usuario.apellido}"></p>
+							<p class="card-text" th:text="${usuario.nombre +' '+usuario.apellido}"></p>
+							<svg th:if="${usuario.role == 'USER'}" xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" style="font-size: 2rem; color: cornflowerblue;" class="bi bi-person-fill" viewBox="0 0 16 16">
+							  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+							</svg>
+							<svg th:if="${usuario.role == 'ADMIN'}" xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" style="font-size: 2rem; color: rgb(25, 135, 84);" class="bi bi-person-fill" viewBox="0 0 16 16">
+							  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+							</svg>
 						</div>
 					</div>
 					<div class="flip-card-back">
@@ -56,18 +61,32 @@
 							</h4>
 							<h5 class="font-weight-bold my-4" th:text="${usuario.role}"></h5>
 							<ul class="list-unstyled list-inline d-flex justify-content-center flex-wrap mt-4">
-								<li th:if="${usuario.role == 'USER'}" class="list-inline-item"><a class="btn btn-success px-4">
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-up" viewBox="0 0 16 16">
-									  <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-									  <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
-									</svg>
-								</a></li>
-								<li th:if="${usuario.role == 'ADMIN'}" class="list-inline-item"><a class="btn btn-warning px-4">
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-down" viewBox="0 0 16 16">
-									  <path d="M12.5 9a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Zm.354 5.854 1.5-1.5a.5.5 0 0 0-.708-.708l-.646.647V10.5a.5.5 0 0 0-1 0v2.793l-.646-.647a.5.5 0 0 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-									  <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
-									</svg>
-								</a></li>
+								<li th:if="${usuario.role == 'USER'}" class="list-inline-item">
+									<form method="POST" action="/admin/user/update">
+										<button type="submit" class="btn btn-success px-4">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-up" viewBox="0 0 16 16">
+											  <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+											  <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
+											</svg>
+										</button>
+										<input type="hidden" name="username" th:value="${usuario.username}">
+										<input type="hidden" name="role" th:value="ADMIN"/>
+										<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+									</form>
+								</li>
+								<li th:if="${usuario.role == 'ADMIN'}" class="list-inline-item">
+									<form method="POST" action="/admin/user/update">
+										<button type="submit" class="btn btn-warning px-4">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-down" viewBox="0 0 16 16">
+										  		<path d="M12.5 9a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Zm.354 5.854 1.5-1.5a.5.5 0 0 0-.708-.708l-.646.647V10.5a.5.5 0 0 0-1 0v2.793l-.646-.647a.5.5 0 0 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+										  		<path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
+											</svg>
+										</button>
+										<input type="hidden" name="username" th:value="${usuario.username}">
+										<input type="hidden" name="role" th:value="USER"/>
+										<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+									</form>
+								</li>
 								<li class="list-inline-item">
 									<form method="POST" action="/usuario/borrar">
 										<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
